@@ -8,24 +8,38 @@
 import SwiftUI
 
 struct KeysView: View {
-    @State var publicKey: String = ""
-    @State var privateKey: String = ""
+    var publicKey: String
+    var privateKey: String
+    var isSupported: Bool? = nil
     var onGenerateNewKeys: () -> Void = {}
+    var onDeleteKey: () -> Void = {}
     var body: some View {
         Section(header: Text("Known keys")) {
             VStack(alignment: .leading) {
+                let color: Color = isSupported == nil
+                ? Color.black
+                : isSupported == true
+                ? Color.green : Color.red
+
                 Text("Publick Key")
                 Text("\(publicKey)")
                     .font(.caption)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .foregroundColor(color)
                 Divider()
                 Text("Private Key")
                 Text("\(privateKey)")
                     .font(.caption)
             }
+            Button(action: onDeleteKey, label: {
+                Text("Delete Key")
+            })
+                .foregroundColor(Color.red)
             Button(action: onGenerateNewKeys, label: {
                 Text("Generate New Keys")
             })
         }
+
     }
 }
 
