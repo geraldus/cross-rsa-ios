@@ -34,12 +34,6 @@ func messageSizeValid(withKey key: SecKey, message: String) -> Bool {
 }
 
 
-//guard messageSizeValid(withKey: publicKey, message: message) else {
-//    messageTooLongAlert = true
-//    reset()
-//    return
-//}
-
 func rsaEncode(withKey key: SecKey, message: String) -> Data? {
     guard messageSizeValid(withKey: key, message: message) else {
         print("Invalid message size")
@@ -49,7 +43,6 @@ func rsaEncode(withKey key: SecKey, message: String) -> Data? {
     guard let cipherText = SecKeyCreateEncryptedData(
         key,
         .rsaEncryptionPKCS1,
-//        .rsaEncryptionOAEPSHA256,
         message.data(using: .utf8)! as CFData,
         &error) as Data?
     else {
