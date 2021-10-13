@@ -21,11 +21,11 @@ struct KeysView: View {
                 : isSupported == true
                 ? Color.green : Color.red
 
-                Text("Publick Key")
-                Text("\(publicKey)")
+                Text("Public Key")
+                TextEditor(text: Binding.constant(publicKey))
                     .font(.caption)
-                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(color)
+                    .fixedSize(horizontal: false, vertical: true)
                 Divider()
                 Text("Private Key")
                 Text("\(privateKey)")
