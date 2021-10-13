@@ -9,7 +9,6 @@ import Foundation
 
 func getPublicKeyString(key: SecKey) -> String? {
     let publicKeyCopy = SecKeyCopyPublicKey(key)!
-    print(publicKeyCopy)
     var result: String? = nil
     do {
         var error: Unmanaged<CFError>?
@@ -32,6 +31,7 @@ func userPrivateKeyQuery(atag alias: String, returnRef: Bool = true) -> [String:
             kSecReturnRef as String: returnRef]
 }
 
+
 //
 //  From RSAPublicKeyExporter.swift
 //  rsa-public-key-importer-exporter
@@ -39,7 +39,6 @@ func userPrivateKeyQuery(atag alias: String, returnRef: Bool = true) -> [String:
 //  Created by nextincrement on 27/07/2019.
 //  Copyright © 2019 nextincrement
 //
-
 
 public struct RSAPublicKeyExporter: RSAPublicKeyExporting {
 

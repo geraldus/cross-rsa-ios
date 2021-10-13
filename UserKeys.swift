@@ -56,7 +56,6 @@ struct UserKeys: View {
         if (privateKey != nil) {
             deleteKey()
         }
-        print("Generating keys for \(usernameUnwrapped) \(String(decoding: tag, as: UTF8.self))")
         let attributes: [String: Any] =
         [kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
          kSecAttrKeySizeInBits as String: 2048,
@@ -66,7 +65,6 @@ struct UserKeys: View {
             ]
         ]
         guard let privateKeyGenerated = SecKeyCreateRandomKey(attributes as CFDictionary, nil) else { return }
-        print("Genrated key \(privateKeyGenerated)")
         onKeyGenerated(key: privateKeyGenerated)
         checkKeys()
     }
@@ -75,7 +73,6 @@ struct UserKeys: View {
         if (privateKey == nil || !usernameIsValid) {
             return
         }
-        print("Deleting key \(userKeyAlias())")
         let query: [String: Any] = userKeyQuery()
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else { onKeyNotExists(); return }
@@ -90,7 +87,6 @@ struct UserKeys: View {
             return
         }
         usernameIsValid = true
-        print("Checking key for \(usernameTrimmed())")
         let query: [String: Any] = userKeyQuery()
         var item: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -100,7 +96,6 @@ struct UserKeys: View {
     }
 
     private func onKeyNotExists() {
-        print("Not exists")
         resetView()
     }
 

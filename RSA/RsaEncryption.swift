@@ -74,7 +74,6 @@ struct RsaEncryption: View {
                                          kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
                                          kSecAttrKeySizeInBits as String: 2048]
 
-        //        let publicKeyString = getPublicKeyString(key: key)
         guard let publicKeyString = getPublicKeyString(key: key), let publicKeyRecons = pubKey(from: publicKeyString, attributes)
         else {
             reset()
@@ -99,32 +98,9 @@ struct RsaEncryption: View {
             return
         }
 
-        guard let cipherText2 = rsaEncode(withKey: publicKey, message: message) else {
-            return
-        }
-        print(">>> PURE <<<")
-        print(cipherText2.base64EncodedString())
 
         lastEncryptedMessage = cipherText.base64EncodedString()
-        print(">>> ENCODED MESSAGE <<<")
-        print(lastEncryptedMessage)
         // String(decoding: cipherText, as: UTF8.self)
-        guard let clearText = SecKeyCreateDecryptedData(key,
-                                                        algorithm,
-                                                        cipherText as CFData,
-                                                        &error) as Data? else {
-            return reset()
-            //            throw error!.takeRetainedValue() as Error
-        }
-        guard let clearText2 = SecKeyCreateDecryptedData(key,
-                                                         algorithm,
-                                                         cipherText2 as CFData,
-                                                         &error) as Data? else {
-            return reset()
-            //            throw error!.takeRetainedValue() as Error
-        }
-        print("CLEARED 1: \(String(decoding:clearText, as: UTF8.self))")
-        print("CLEARED 2: \(String(decoding:clearText2, as: UTF8.self))")
     }
 }
 
