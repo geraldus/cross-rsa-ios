@@ -44,7 +44,6 @@ struct EncryptMessage: View {
                 }
             }
         }
-
     }
 
     private func encode() {
