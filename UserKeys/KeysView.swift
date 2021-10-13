@@ -25,7 +25,7 @@ struct KeysView: View {
                 TextEditor(text: Binding.constant(publicKey))
                     .font(.caption)
                     .foregroundColor(color)
-                    .fixedSize(horizontal: false, vertical: true)
+
                 Divider()
                 Text("Private Key")
                 Text("\(privateKey)")

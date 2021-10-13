@@ -28,10 +28,11 @@ struct EncryptMessage: View {
                                 .foregroundColor(Color.red)
                         }
                     }
+                }
 
-                    Section(header: Text("Message")) {
-                        TextEditor(text: $message)
-                    }
+                Section(header: Text("Message")) {
+                    TextEditor(text: $message)
+
 
                     Button(action: encode) {
                         Text("Encode")
