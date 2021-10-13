@@ -113,25 +113,20 @@ struct UserKeys: View {
     }
 
     private func userKeyQuery(returnRef: Bool = true) -> [String: Any] {
-        let tag = userKeyAlias().data(using: .utf8)!
-        return [kSecClass as String: kSecClassKey,
-                kSecAttrApplicationTag as String: tag,
-                kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
-                kSecReturnRef as String: returnRef]
-
+        userPrivateKeyQuery(atag: userKeyAlias(), returnRef: returnRef)
     }
 
     private func userKeyAlias() -> String {
-        "com.example.keys.\(username ?? "no_user")_key"
+        pgpt1.userKeyAlias(username: username)
     }
 
     private func usernameIsEmpty() -> Bool {
-        usernameTrimmed().isEmpty
+        guard let username = username else { return false }
+        return pgpt1.usernameIsEmpty(username: username)
     }
 
     private func usernameTrimmed() -> String {
-        guard let usernameUnwrapped = username else { return "" }
-        return usernameUnwrapped.trimmingCharacters(in: .whitespaces)
+        pgpt1.usernameTrimmed(username: username)
     }
 }
 
