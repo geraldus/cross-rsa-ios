@@ -14,15 +14,16 @@ let rsaPubKeyAttrs: [String: Any] =
 
 func pubKey(from string: String, _ attributes: [String: Any]) -> SecKey? {
     var error: Unmanaged<CFError>?
-    guard let key = SecKeyCreateWithData(
-        Data(
-            base64Encoded: string.data(using: .utf8)!)! as CFData,
-        attributes as CFDictionary,
-        &error
-    )
+    let keyBytes = string.data(using: .utf8)
+    guard let keyBytes = keyBytes,
+          let keyBase64 = Data(base64Encoded: keyBytes),
+          let key = SecKeyCreateWithData(
+            keyBase64 as CFData,
+            attributes as CFDictionary,
+            &error
+          )
     else {
-        let e =  error!.takeRetainedValue() as Error
-        print(e.localizedDescription)
+        print("Key reconstruction error")
         return nil
     }
     return key
