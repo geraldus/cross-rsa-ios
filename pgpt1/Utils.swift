@@ -21,7 +21,6 @@ func pubKey(from string: String, _ attributes: [String: Any]) -> SecKey? {
         &error
     )
     else {
-        print("Key reconstruction error")
         let e =  error!.takeRetainedValue() as Error
         print(e.localizedDescription)
         return nil
@@ -46,10 +45,31 @@ func rsaEncode(withKey key: SecKey, message: String) -> Data? {
         message.data(using: .utf8)! as CFData,
         &error) as Data?
     else {
-            print("Key import error")
-            let e =  error!.takeRetainedValue() as Error
-            print(e.localizedDescription)
-            return nil
-        }
+        let e =  error!.takeRetainedValue() as Error
+        print(e.localizedDescription)
+        return nil
+    }
     return cipherText
+}
+
+
+func rsaDecode(withKey key: SecKey, message encoded: Data) -> Data? {
+    var error: Unmanaged<CFError>?
+    return SecKeyCreateDecryptedData(key,
+                                     .rsaEncryptionPKCS1,
+                                     encoded as CFData,
+                                     &error) as Data?
+}
+
+func userKeyAlias(username: String?) -> String {
+    "com.example.keys.\(username ?? "no_user")_key"
+}
+
+func usernameIsEmpty(username: String) -> Bool {
+    usernameTrimmed(username: username).isEmpty
+}
+
+func usernameTrimmed(username: String?) -> String {
+    guard let usernameUnwrapped = username else { return "" }
+    return usernameUnwrapped.trimmingCharacters(in: .whitespaces)
 }
